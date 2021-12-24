@@ -1,0 +1,264 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+  <link rel='stylesheet' type="text/css" href="{% static 'style.css' %}" >
+{% endblock header %}
+
+{% block content %}
+<link rel='stylesheet' type="text/css" href="{% static 'common.css' %}" >
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="… " crossorigin="anonymous">
+
+<style>
+
+  .container .card_1 {
+    /*↓増えた*/
+    position: relative;
+    margin-top: 3em;
+    margin-left: 12em;
+    margin-right: 0em;
+    color: rgb(0, 0, 0);
+    width: 1000px;
+    background:rgba(255, 255, 255, 0.0);
+  
+    /*↓増えた*/
+    z-index: 0;
+    filter: drop-shadow(0 0 0px black);
+    padding-top: 2em;
+    transform:translate3d(0,0,0); 
+  }
+  
+  .card_1 {
+    margin: 10em 0em 0em;
+  }
+  
+  .parent {
+   width: 100%;
+   display: flex;
+  }
+  
+  #image_pic {
+    padding: 2em;
+    padding-left:5em;
+    padding-right:5em;
+  }
+  
+  #content_card {
+    width: 600px;
+    padding-top: 0.5em;
+    padding-left: 0em;
+    padding-right:  1em;
+  }
+  
+  .content-wrap {
+    height: 350px;
+    overflow: hidden;
+    position: relative;
+    margin: 0;    
+  }
+  
+  .slide-up {
+    height: 350px;
+    padding-bottom: 0;
+    overflow: hidden;
+  }
+  
+  .close-btn, .more-btn {
+    display: block;
+    width: 100%;
+    padding: 80px 0 0;
+    position: absolute;
+    bottom: -17px;
+    left: 0;
+    text-align: center;
+    background: -moz-linear-gradient(
+      top,
+  
+    );
+    background: -webkit-linear-gradient(
+      top,
+  
+    );
+    background: linear-gradient(
+      to bottom,
+  
+    );
+    filter: progid:DXImageTransform.Microsoft.gradient(
+        startColorstr='#00ffffff',
+        endColorstr='#ffffff',
+        GradientType=0
+      );
+  }
+  .close-btn {
+    background: none;
+  }
+  
+  .slide-down {
+    height: auto;
+    overflow: visible;
+    padding-bottom: 50px;
+  }
+  .more-btn p {
+    display: inline-block;
+    color: #fff;
+    cursor: pointer;
+    background: #29B6F6;
+    padding: 0px 20px;
+    width: 100%;
+    border-radius: 20px;
+  }
+  .close-btn {
+    padding:0;
+  }
+  .close-btn p {
+    background: #aaa;
+  }
+
+  #header_title{
+    padding-left:40px;
+  }
+
+  #header_detail{
+    padding-left:150px;
+  }
+
+  .search_box{
+    padding-top:10px;
+    padding-left:50px;
+  }
+
+  .search_word_card{
+    font-size: 18pt;
+  }
+
+  .page_nav{
+    margin: 0 auto;
+    width: 400px;
+  }
+
+  .card_header{
+    margin-top: -200px;
+    margin-left: 100px;
+  }
+
+  .card_main_content{
+    margin-top: 50px;
+  }
+
+  .content-txt{
+
+  }
+
+  </style>
+
+<body>
+  <div class="container">
+    
+    <div class="text_head">
+      <h1>Post list</h1>
+    </div>
+
+    <div class='search_box'>
+      <form action="" method="POST" >{% csrf_token %}
+        <p>検索ワード:<input type='text' name='search_word' class="input_form_content">
+        <select id="input_text" name="input_text">
+          <option value="1">登録日が新しい順</option>
+          <option value="2">登録日が古い順</option>
+        </select>
+        <button type="submit" name="submit" value="送信" style="background-color: #bcbcff" >
+          <font size="5">検索</font>
+        </button>
+      </form>
+    </div>
+
+    <div class="row">
+      {% for item in pages %}
+      <div class="col-sm-16" id="array">
+          <div class="card_1">
+            <img src="{% static 'posts/Antique-label-2.png' %}" width=1000 height=250 id="img_box">
+            <div class="card_content">
+              <div class="card_header">
+                <div class="search_word_card">
+                  <p id="search_word_content">#{{ item.search_word_1 }} #{{ item.search_word_2 }} #{{ item.search_word_3 }}</p>
+                </div>
+                  <div id="header_title">
+                    <h5 style="font-size: 20pt;"><a href="{% url 'detail' item.pk%}" >{{ item.title }}</a></h5><br>
+                    <h5 style="font-size: 17pt; margin-top: -10px; padding-left: 50px;">みんなの評価:{{ item.rate_review }}点  参考になった:{{ item.useful_review }}人</h5>
+                  </div>
+              </div>
+              <div class="card_main_content">
+                <div class="parent">
+                  <div id="image_pic">
+                    <p><img src='{{item.images.url}}' width=200 height=300></p>
+                  </div>
+                  <div id="content_card">
+                    <div class="content-wrap">
+                      <div class="content-txt">
+                        <p style="font-size: 20pt; padding-top:20px;">{{ item.user_title }}</p>
+                        <p style="font-size: 14pt;">{{item.content | linebreaksbr}}</p>
+                      </div>
+                      <a href="{% url 'detail' item.pk%}" class="btn btn-primary">詳しく見る</a>
+                      <div class="more-btn">
+                        <p class="open">もっと見る</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+       </div>
+      {% endfor %}
+       {% if pages.has_other_pages %}
+        <nav aria-label="Page navigation example" class="page_nav">
+          <ul class="pagination">
+          {% if pages.has_previous %}
+          <li><a class="page-link text-primary d-inline-block" href="?page={{pages.previous_page_number}}"><<</a></li>
+          {% else %}
+          <li class="disabled"><div class="page-link text-secondary d-inline-block disabled" href="#"><<</div></li>
+          {% endif %}
+
+          {% for page_num in pages.paginator.page_range %}
+            {% if page_num %}
+              {%  if page_num == pages.number %}
+              <li class="disabled"><div class="page-link text-secondary d-inline-block disabled" href="#">{{ page_num }}</div></li>
+              {% else %}
+              <li><a class="page-link text-primary d-inline-block" href="?page={{page_num}}"> {{ page_num }}</a></li>
+              {% endif %}
+            {% else %}
+             <li class="disabled"><a class="page-link text-secondary d-inline-block text-muted" href="#">・・・</a></li>
+          {% endif %}
+          {% endfor %}
+
+          {% if pages.has_next %}
+            <li><a class="page-link text-primary d-inline-block" href="?page={{pages.next_page_number}}">>></a></li>
+          {% else %}
+            <li class="disabled"><div class="page-link text-secondary d-inline-block disabled" href="#">>></div></li>
+          {% endif %}
+        </ul>
+      </nav>
+    {% endif %}
+
+
+
+    </div>
+  </div>
+</body>
+
+<script src="{% static 'jquery-3.4.1.min.js'%}"></script>
+<script>
+  $(function() {
+  $('.more-btn').on('click', function() {
+    if( $(this).children().is('.open') ) {
+      $(this).html('<p class="close">閉じる</p>').addClass('close-btn');
+      $(this).parent().removeClass('slide-up').addClass('slide-down');
+    } else {
+      $(this).html('<p class="open">もっと見る</p>').removeClass('close-btn');
+      $(this).parent().removeClass('slide-down').addClass('slide-up');
+    }
+  });
+});
+</script>
+
+
+{% endblock content %}
