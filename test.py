@@ -6,7 +6,6 @@ Created on Wed Feb 17 13:18:11 2021
 """
 
 import hxdata_mod as HX
-import numpy as np
 import average_convolve
 from matplotlib import pyplot as plt
 
